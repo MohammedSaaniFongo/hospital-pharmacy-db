@@ -1,0 +1,202 @@
+{
+  "info": {
+    "name": "Hospital & Pharmacy Management API",
+    "description": "CRUD + reporting endpoints for combined hospital/pharmacy MongoDB system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "patientId", "value": "" },
+    { "key": "staffId", "value": "" },
+    { "key": "medicineId", "value": "" },
+    { "key": "prescriptionId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Patients",
+      "item": [
+        {
+          "name": "Create Patient",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/patients",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Yaw\",\n  \"lastName\": \"Mensah\",\n  \"dateOfBirth\": \"1998-03-14\",\n  \"gender\": \"Male\",\n  \"phone\": \"0201234567\",\n  \"bloodGroup\": \"O+\",\n  \"allergies\": [\"Penicillin\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Patients",
+          "request": { "method": "GET", "url": "{{baseUrl}}/patients?page=1&limit=20" }
+        },
+        {
+          "name": "Get Patient by ID",
+          "request": { "method": "GET", "url": "{{baseUrl}}/patients/{{patientId}}" }
+        },
+        {
+          "name": "Update Patient",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/patients/{{patientId}}",
+            "body": { "mode": "raw", "raw": "{\n  \"phone\": \"0209999999\"\n}" }
+          }
+        },
+        {
+          "name": "Delete Patient",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/patients/{{patientId}}" }
+        }
+      ]
+    },
+    {
+      "name": "Staff",
+      "item": [
+        {
+          "name": "Create Staff",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/staff",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Kwame\",\n  \"lastName\": \"Boateng\",\n  \"role\": \"Doctor\",\n  \"department\": \"General Medicine\",\n  \"licenseNumber\": \"GH-MED-1023\",\n  \"phone\": \"0244000001\",\n  \"email\": \"k.boateng@hospital.gh\"\n}"
+            }
+          }
+        },
+        { "name": "Get All Staff", "request": { "method": "GET", "url": "{{baseUrl}}/staff" } },
+        { "name": "Get Staff by ID", "request": { "method": "GET", "url": "{{baseUrl}}/staff/{{staffId}}" } },
+        {
+          "name": "Update Staff",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/staff/{{staffId}}",
+            "body": { "mode": "raw", "raw": "{\n  \"isActive\": false\n}" }
+          }
+        },
+        { "name": "Delete Staff", "request": { "method": "DELETE", "url": "{{baseUrl}}/staff/{{staffId}}" } }
+      ]
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        {
+          "name": "Create Appointment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/appointments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patient\": \"{{patientId}}\",\n  \"doctor\": \"{{staffId}}\",\n  \"department\": \"General Medicine\",\n  \"date\": \"2026-08-05T09:00:00Z\",\n  \"reason\": \"Routine checkup\"\n}"
+            }
+          }
+        },
+        { "name": "Get All Appointments", "request": { "method": "GET", "url": "{{baseUrl}}/appointments" } },
+        { "name": "Get Appointment by ID", "request": { "method": "GET", "url": "{{baseUrl}}/appointments/:id" } },
+        { "name": "Update Appointment Status", "request": { "method": "PUT", "url": "{{baseUrl}}/appointments/:id", "body": { "mode": "raw", "raw": "{\n  \"status\": \"Completed\"\n}" } } },
+        { "name": "Delete Appointment", "request": { "method": "DELETE", "url": "{{baseUrl}}/appointments/:id" } }
+      ]
+    },
+    {
+      "name": "Medical Records",
+      "item": [
+        {
+          "name": "Create Medical Record",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/medical-records",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patient\": \"{{patientId}}\",\n  \"doctor\": \"{{staffId}}\",\n  \"diagnosis\": \"Malaria\",\n  \"notes\": \"Prescribed antimalarials, review in 3 days\",\n  \"vitals\": { \"bloodPressure\": \"120/80\", \"temperature\": 38.2, \"pulse\": 88, \"weight\": 70 }\n}"
+            }
+          }
+        },
+        { "name": "Get All Medical Records", "request": { "method": "GET", "url": "{{baseUrl}}/medical-records" } },
+        { "name": "Get Medical Record by ID", "request": { "method": "GET", "url": "{{baseUrl}}/medical-records/:id" } }
+      ]
+    },
+    {
+      "name": "Medicines",
+      "item": [
+        {
+          "name": "Create Medicine",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/medicines",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Paracetamol\",\n  \"genericName\": \"Acetaminophen\",\n  \"category\": \"Analgesic\",\n  \"manufacturer\": \"Ernest Chemists\",\n  \"unit\": \"tablet\",\n  \"pricePerUnit\": 0.5,\n  \"reorderLevel\": 100,\n  \"requiresPrescription\": false\n}"
+            }
+          }
+        },
+        { "name": "Get All Medicines", "request": { "method": "GET", "url": "{{baseUrl}}/medicines" } },
+        { "name": "Get Medicine by ID", "request": { "method": "GET", "url": "{{baseUrl}}/medicines/{{medicineId}}" } },
+        { "name": "Update Medicine", "request": { "method": "PUT", "url": "{{baseUrl}}/medicines/{{medicineId}}", "body": { "mode": "raw", "raw": "{\n  \"pricePerUnit\": 0.6\n}" } } },
+        { "name": "Delete Medicine", "request": { "method": "DELETE", "url": "{{baseUrl}}/medicines/{{medicineId}}" } }
+      ]
+    },
+    {
+      "name": "Inventory",
+      "item": [
+        {
+          "name": "Add Inventory Batch",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/inventory",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"medicine\": \"{{medicineId}}\",\n  \"batchNo\": \"PCM-2026-01\",\n  \"quantity\": 500,\n  \"expiryDate\": \"2027-06-30\",\n  \"location\": \"Main Store\"\n}"
+            }
+          }
+        },
+        { "name": "Get All Inventory", "request": { "method": "GET", "url": "{{baseUrl}}/inventory" } },
+        { "name": "Low Stock Alerts", "request": { "method": "GET", "url": "{{baseUrl}}/inventory/alerts/low-stock" } },
+        { "name": "Expiring Soon (90 days)", "request": { "method": "GET", "url": "{{baseUrl}}/inventory/alerts/expiring-soon?days=90" } }
+      ]
+    },
+    {
+      "name": "Prescriptions",
+      "item": [
+        {
+          "name": "Create Prescription",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/prescriptions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patient\": \"{{patientId}}\",\n  \"doctor\": \"{{staffId}}\",\n  \"items\": [\n    { \"medicine\": \"{{medicineId}}\", \"dosage\": \"1 tablet twice daily\", \"quantity\": 10 }\n  ]\n}"
+            }
+          }
+        },
+        { "name": "Get All Prescriptions", "request": { "method": "GET", "url": "{{baseUrl}}/prescriptions" } },
+        { "name": "Get Prescription by ID", "request": { "method": "GET", "url": "{{baseUrl}}/prescriptions/{{prescriptionId}}" } },
+        {
+          "name": "Dispense Prescription",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/prescriptions/{{prescriptionId}}/dispense",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"MoMo\",\n  \"staffId\": \"{{staffId}}\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sales",
+      "item": [
+        { "name": "Get All Sales", "request": { "method": "GET", "url": "{{baseUrl}}/sales" } },
+        { "name": "Daily Revenue Report", "request": { "method": "GET", "url": "{{baseUrl}}/sales/reports/daily" } },
+        { "name": "Top-Selling Medicines", "request": { "method": "GET", "url": "{{baseUrl}}/sales/reports/top-medicines?limit=5" } }
+      ]
+    }
+  ]
+}
